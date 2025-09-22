@@ -1,0 +1,29 @@
+name: Terraform Basic CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: "1.6.0"
+
+      - name: Formatear código
+        run: terraform fmt -check
+
+      - name: Validar configuración
+        run: terraform validate
+
+      - name: Crear plan
+        run: terraform plan
