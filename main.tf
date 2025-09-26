@@ -1,13 +1,12 @@
 terraform {
-  required_version = ">= 1.6"
   required_providers {
-    local = {
-      source  = "hashicorp/local"
-      version = "~> 2.4"
-    }
     random = {
       source  = "hashicorp/random"
-      version = "~> 3.4"
+      version = "~> 3.0"
+    }
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.0"
     }
   }
 }
@@ -16,7 +15,14 @@ resource "random_id" "project_id" {
   byte_length = 8
 }
 
-resource "local_file" "student_info" {
-  filename = "outputs/student_info.txt"
-  content  = "Estudiante: ${var.student_name}\nGitHub: ${var.github_user}\nLenguaje favorito: ${var.favorite_language}\n"
+resource "local_file" "config_file" {
+  filename = "templates/${local.prefix}-config.txt"
+  content  = <<EOF
+Proyecto: ${var.app_name}
+Entorno: ${var.environment}
+Instancias = ${local.scaled_instances}
+Prefijo = ${local.prefix}
+Tags = ${jsonencode(local.default_tags)}
+ID Generado = ${random_id.project_id.hex}
+EOF
 }

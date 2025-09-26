@@ -1,0 +1,6 @@
+Proyecto: testapp
+Entorno: prod
+Instancias = 4
+Prefijo = testapp-prod
+Tags = {"Environment":"prod","Project":"testapp"}
+ID Generado = 94f797b389ab5764
